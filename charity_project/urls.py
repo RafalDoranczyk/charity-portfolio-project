@@ -5,6 +5,7 @@ from charity.views import (
     RegisterView,
     LoginView,
     AddDonationView,
+    LogoutView,
 )
 
 urlpatterns = [
@@ -12,5 +13,7 @@ urlpatterns = [
     path('', LandingView.as_view(), name='landing'),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('donation/', AddDonationView.as_view(), name='donation_form')
 ]
+
