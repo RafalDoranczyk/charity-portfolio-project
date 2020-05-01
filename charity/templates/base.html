@@ -10,12 +10,26 @@
 </head>
 <body>
 
-<header class="header--main-page">
+<header class="{% if request.path == '/' %} header--main-page {% endif %}">
+
     <nav class="container container--70">
-        <ul class="nav--actions">
-            <li><a href="{% url 'login' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="{% url 'register' %}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
-        </ul>
+        {% if request.user.is_authenticated %}
+            <ul class="nav--actions">
+                <li class="logged-user">
+                    Witaj {{ request.user.username }}
+                    <ul class="dropdown">
+                        <li><a href="#">Profil</a></li>
+                        <li><a href="#">Moje zbiórki</a></li>
+                        <li><a href="{% url 'logout' %}?next=/">Wyloguj</a></li>
+                    </ul>
+                </li>
+            </ul>
+        {% else %}
+            <ul class="nav--actions">
+                <li><a href="{% url 'login' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
+                <li><a href="{% url 'register' %}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            </ul>
+        {% endif %}
         <ul>
             <li><a href="{% url 'landing' %}" class="btn btn--without-border active">Start</a></li>
             <li><a href="{% url 'landing' %}#steps" class="btn btn--without-border">O co chodzi?</a></li>

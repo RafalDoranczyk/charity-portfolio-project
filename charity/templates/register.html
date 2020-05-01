@@ -1,31 +1,43 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
     <section class="login-page">
         <h2>Załóż konto</h2>
-        <form>
-            <div class="form-group">
-                <input type="text" name="name" placeholder="Imię"/>
+
+        <form novalidate method="post" action="">
+            {% csrf_token %}
+
+            <div>
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Imię"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="surname" placeholder="Nazwisko"/>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password1" placeholder="Hasło"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password2" placeholder="Powtórz hasło"/>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" name="surname" placeholder="Nazwisko"/>
-            </div>
-            <div class="form-group">
-                <input type="email" name="email" placeholder="Email"/>
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" placeholder="Hasło"/>
-            </div>
-            <div class="form-group">
-                <input type="password" name="password2" placeholder="Powtórz hasło"/>
+
+            <div>
+                {% for key, value in form.errors.items %}
+                    <div class="form-group" style="margin: 15px">
+                        <p>{{ value }}</p>
+                    </div>
+                {% endfor %}
             </div>
 
             <div class="form-group form-group--buttons">
-                <a href="login.html" class="btn btn--without-border">Zaloguj się</a>
+                <a href="{% url 'login' %} " class="btn btn--without-border">Zaloguj się</a>
                 <button class="btn" type="submit">Załóż konto</button>
             </div>
         </form>
     </section>
-
 {% endblock %}
