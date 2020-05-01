@@ -1,6 +1,6 @@
 from django.views import View
 from django.contrib.auth.views import LoginView, LogoutView
-from .models import Donation, Institution
+from .models import Donation, Institution, Category
 from django.contrib.auth import login
 from django.db.models import Sum
 from django.shortcuts import render, redirect
@@ -27,7 +27,11 @@ class AddDonationView(View):
     template_name = 'form.html'
 
     def get(self, request):
-        return render(request, self.template_name)
+        categories = Category.objects.all().distinct('name')
+        ctx = {
+            'categories': categories
+        }
+        return render(request, self.template_name, ctx)
 
 
 def auth_login(password, email):
@@ -44,6 +48,7 @@ def auth_login(password, email):
 
 class LoginView(LoginView):
     template_name = 'login.html'
+
 
     def get(self, request):
         return render(request, self.template_name)
