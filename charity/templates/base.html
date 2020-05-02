@@ -18,8 +18,11 @@
                 <li class="logged-user">
                     Witaj {{ request.user.username }}
                     <ul class="dropdown">
-                        <li><a href="#">Profil</a></li>
+                        <li><a href="{% url 'user' %}">Profil</a></li>
                         <li><a href="#">Moje zbiórki</a></li>
+                        {% if request.user.is_superuser %}
+                        <li><a href="/admin">Panel administracyjny</a></li>
+                        {% endif%}
                         <li><a href="{% url 'logout' %}?next=/">Wyloguj</a></li>
                     </ul>
                 </li>
@@ -68,6 +71,10 @@
     </div>
 </footer>
 
-<script src="js/app.js"></script>
+{% block script %}
+{% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js"></script>
+
+<script src={% static "js/app.js" %}></script>
 </body>
 </html>

@@ -69,59 +69,42 @@
 
     <section id="help" class="help">
         <h2>Komu pomagamy?</h2>
-       <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić
-                    czym
-                    się zajmują, komu pomagają i czego potrzebują.</p>
+        <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić
+            czym
+            się zajmują, komu pomagają i czego potrzebują.</p>
         <ul class="help--buttons">
-            <li data-id="1"><a href="#" class="btn btn--without-border active">Fundacjom</a></li>
-            <li data-id="2"><a href="#" class="btn btn--without-border">Organizacjom pozarządowym</a></li>
-            <li data-id="3"><a href="#" class="btn btn--without-border">Lokalnym zbiórkom</a></li>
+            {% for key, value in insitution_types %}
+                {% if forloop.counter == 1 %}
+                    <li
+                            onclick="onClick('{{ key }}', '{{ forloop.counter }}')"
+                            data-id="{{ forloop.counter }}">
+                        <a
+                                data-id="{{ forloop.counter }}"
+                                href="#"
+                                id="{{ key }}"
+                                class="btn fund btn--without-border active">{{ value }}</a>
+                    </li>
+                {% else %}
+                    <li
+                            onclick="onClick('{{ key }}{{ forloop.counter }} ')"
+                            data-id="{{ forloop.counter }}"><a
+                            data-id="{{ forloop.counter }}"
+                            id="{{ key }}"
+                            href="#"
+                            class="btn fund btn--without-border">{{ value }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
         </ul>
-
-
-<div class="help--slides active" data-id="1">
-
-      </div>
 
         <!-- SLIDE 1 -->
         <div class="help--slides active" data-id="1">
             <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym
                 się zajmują, komu pomagają i czego potrzebują.</p>
 
-            <ul class="help--slides-items">
-                <li>
-                    <div class="col">
-                        <div class="title">Fundacja "Dbam o Zdrowie"</div>
-                        <div class="subtitle">Cel i misja: Pomoc dzieciom z ubogich rodzin.</div>
-                    </div>
+            <ul class="help--slides-items 1">
 
-                    <div class="col">
-                        <div class="text">ubrania, jedzenie, sprzęt AGD, meble, zabawki</div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="col">
-                        <div class="title">Fundacja “Dla dzieci"</div>
-                        <div class="subtitle">Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji życiowej.
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">ubrania, meble, zabawki</div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="col">
-                        <div class="title">Fundacja “Bez domu”</div>
-                        <div class="subtitle">Cel i misja: Pomoc dla osób nie posiadających miejsca zamieszkania</div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">ubrania, jedzenie, ciepłe koce</div>
-                    </div>
-                </li>
             </ul>
             <!-- Pagination
             <ul class="help--slides-pagination">
@@ -140,50 +123,8 @@
                 accusamus debitis. Ducimus, officia. Quia, sunt illum! Non iste placeat ab ipsum alias
                 quos suscipit corporis!
             </p>
-            <ul class="help--slides-items">
-                <li>
-                    <div class="col">
-                        <div class="title">Organizacja 1</div>
-                        <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-                    </div>
+            <ul class="help--slides-items 2">
 
-                    <div class="col">
-                        <div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="col">
-                        <div class="title">Organizacja 2</div>
-                        <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="col">
-                        <div class="title">Organizacja 3</div>
-                        <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="col">
-                        <div class="title">Organizacja 4</div>
-                        <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-                    </div>
-                </li>
             </ul>
 
             <!-- Pagination
@@ -201,28 +142,8 @@
         <div class="help--slides" data-id="3">
             <p>Lorem ipsum dolor sit amet, his ocurreret persequeris ea, ad utinam laudem duo. Verterem adipisci
                 partiendo eos ne, ea his reque quaeque recteque, ne quo lobortis intellegam.</p>
-            <ul class="help--slides-items">
-                <li>
-                    <div class="col">
-                        <div class="title">Lokalna zbiórka 1</div>
-                        <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-                    </div>
+            <ul class="help--slides-items 3">
 
-                    <div class="col">
-                        <div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="col">
-                        <div class="title">Lokalna zbiórka 2</div>
-                        <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-                    </div>
-                </li>
             </ul>
 
             <!-- Pagination
@@ -233,4 +154,55 @@
             -->
         </div>
     </section>
+{% endblock %}
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+            integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script>
+
+
+        const createInstitutionHtml = (i, id) => {
+            const ul = document.getElementsByClassName(`help--slides-items ${id}`)[0]
+            const li = document.createElement('li')
+            li.innerHTML = `<div class="col">
+            <div class="title">${i.name}</div>
+            <div class="subtitle">${i.description}</div>
+            </div>
+            <div class="col">
+                 <div class="text">${i.categories}</div>
+            </div>
+            `
+
+            ul.appendChild(li)
+        }
+        const inst = document.getElementsByClassName('btn fund active')[0]
+        const getInstitutions = (id, counter) => {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/institutions/',
+                data: {
+                    'id': JSON.stringify(id)
+                },
+                dataType: 'json'
+            }).done((res) => {
+                const institutions = JSON.parse(res.inst)
+                const ul = document.getElementsByClassName(`help--slides-items ${counter}`)[0]
+                if (ul) {
+                    ul.innerHTML = ''
+                    institutions.forEach(i => {
+                        createInstitutionHtml(i, counter)
+                    })
+                }
+
+            }).fail((err) => {
+                console.log(err)
+            })
+        }
+        getInstitutions(inst.id, inst.dataset.id)
+
+
+        const onClick = (id) => {
+            getInstitutions(id[0], id[1])
+        }
+
+    </script>
 {% endblock %}

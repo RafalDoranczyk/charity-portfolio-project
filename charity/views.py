@@ -49,7 +49,6 @@ def auth_login(password, email):
 class LoginView(LoginView):
     template_name = 'login.html'
 
-
     def get(self, request):
         return render(request, self.template_name)
 
@@ -91,3 +90,35 @@ class RegisterView(View):
 
 class LogoutView(LogoutView):
     template_name = 'index.html'
+
+
+class FormConfirmationView(View):
+    template_name = 'form-confirmation.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class UserView(View):
+    template_name = 'user.html'
+
+    def get(self, request):
+        user = User.objects.get(username=request.user)
+        donations = user.donation_set.all()
+        don = []
+        for i in donations:
+            categories = i.categories.all()
+            don.append({
+                'bags': i.quantity,
+                'name': i.institution,
+                'categories': categories,
+                'date': i.pick_up_date
+            })
+        ctx = {
+            'name': user.first_name,
+            'email': user.email,
+            'surname': user.last_name,
+            'donations': don
+        }
+        print(don)
+        return render(request, self.template_name, ctx)

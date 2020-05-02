@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <div style="display: flex; justify-content: center;
+     align-items: center; flex-flow: column nowrap; font-size: 24px">
+
+        <p>Imię użytkownika: </p>
+        <p>{{ name }}</p>
+        <p>Nawisko użytkownika: </p>
+        <p>{{ surname }}</p>
+        <p>Email użytkownika: </p>
+        <p>{{ email }}</p>
+
+        <p>Twoje dary: </p>
+
+        {% if donations %}
+
+            {% for i in donations %}
+                <div style="border: 1px solid black; padding: 10px">
+                    <p>Nazwa fundacji :
+                        <span style="font-size: 14px">{{ i.name }}</span>
+                    </p>
+                    <p>Ilość worków: <span style="font-size: 14px">{{ i.bags }}</span></p>
+                    <p>Z kategorii:
+                        {% for c in i.categories %}
+                            <span style="font-size: 14px">{{ c.name }}</span>
+                        {% endfor %}
+                    </p>
+                    <p>Data przekazania: {{ i.date }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Brak darów</p>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
