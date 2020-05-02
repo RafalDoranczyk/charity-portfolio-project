@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
     <section class="form--steps">
         {% if not request.user.is_authenticated %}
             <div style="height: 600px;
              flex-flow: column;
              display: flex; justify-content: center;align-items: center">
-            <p style="margin: 30px; font-size: 40px; color: red">Nie masz autoryzacji</p>
-            <a class="btn" style="margin: 30px;font-size: 40px"; href="{% url 'login' %}">przejdź do strony logownaia</a>
+                <p style="margin: 30px; font-size: 40px; color: red">Nie masz autoryzacji</p>
+                <a class="btn" style="margin: 30px;font-size: 40px" ; href="{% url 'login' %}">przejdź do strony
+                    logownaia</a>
             </div>
         {% else %}
 
@@ -33,7 +34,8 @@
             <div class="form--steps-container">
                 <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-                <form action="form-confirmation.html" method="post">
+                <form action="" method="post" onsubmit="onSubmit()">
+                    {% csrf_token %}
                     <!-- STEP 1: class .active is switching steps -->
                     <div data-step="1" class="active">
                         <h3>Zaznacz co chcesz oddać:</h3>
@@ -41,23 +43,24 @@
                         {% for category in categories %}
 
                             <div class="form-group form-group--checkbox">
-                            <label>
-                                <input
-                                        type="checkbox"
-                                        name="categories"
-                                        value="{{ category.id }}"
-                                />
-                                <span class="checkbox"></span>
-                                <span class="description"
-                                >{{ category.name }}</span
-                                >
-                            </label>
-                        </div>
+                                <label>
+                                    <input
+                                            class="category_input"
+                                            type="checkbox"
+                                            name="categories"
+                                            value="{{ category.id }}"
+                                    />
+                                    <span class="checkbox"></span>
+                                    <span class="category-name description"
+                                    >{{ category.name }}</span
+                                    >
+                                </label>
+                            </div>
 
                         {% endfor %}
 
                         <div class="form-group form-group--buttons">
-                            <button type="button" class="btn next-step">Dalej</button>
+                            <button type="button" class="first btn next-step">Dalej</button>
                         </div>
                     </div>
 
@@ -68,52 +71,22 @@
                         <div class="form-group form-group--inline">
                             <label>
                                 Liczba 60l worków:
-                                <input type="number" name="bags" step="1" min="1"/>
+                                <input class="bags" type="number" name="bags" step="1" min="1"/>
                             </label>
                         </div>
 
                         <div class="form-group form-group--buttons">
                             <button type="button" class="btn prev-step">Wstecz</button>
-                            <button type="button" class="btn next-step">Dalej</button>
+                            <button type="button" class="second btn next-step">Dalej</button>
                         </div>
                     </div>
 
 
                     <!-- STEP 4 -->
-                    <div data-step="3">
-                        <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-
-                        <div class="form-group form-group--checkbox">
-                            <label>
-                                <input type="radio" name="organization" value="old"/>
-                                <span class="checkbox radio"></span>
-                                <span class="description">
-                  <div class="title">Fundacja “Bez domu”</div>
-                  <div class="subtitle">
-                    Cel i misja: Pomoc dla osób nie posiadających miejsca
-                    zamieszkania
-                  </div>
-                </span>
-                            </label>
-                        </div>
-
-                        <div class="form-group form-group--checkbox">
-                            <label>
-                                <input type="radio" name="organization" value="old"/>
-                                <span class="checkbox radio"></span>
-                                <span class="description">
-                  <div class="title">Fundacja “Dla dzieci"</div>
-                  <div class="subtitle">
-                    Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji
-                    życiowej.
-                  </div>
-                </span>
-                            </label>
-                        </div>
-
+                    <div class="step3" data-step="3">
                         <div class="form-group form-group--buttons">
-                            <button type="button" class="btn prev-step">Wstecz</button>
-                            <button type="button" class="btn next-step">Dalej</button>
+                            <button type="button" class="btn third-back prev-step">Wstecz</button>
+                            <button type="button" class="third btn next-step">Dalej</button>
                         </div>
                     </div>
 
@@ -140,7 +113,7 @@
 
                                 <div class="form-group form-group--inline">
                                     <label>
-                                        Numer telefonu <input type="phone" name="phone"/>
+                                        Numer telefonu <input type="number" name="phone"/>
                                     </label>
                                 </div>
                             </div>
@@ -165,12 +138,13 @@
                         </div>
                         <div class="form-group form-group--buttons">
                             <button type="button" class="btn prev-step">Wstecz</button>
-                            <button type="button" class="btn next-step">Dalej</button>
+                            <button type="button" class="fourth btn next-step">Dalej</button>
                         </div>
                     </div>
 
                     <!-- STEP 6 -->
                     <div data-step="5">
+                        <p id="msg" style="color: red; font-size: 25px; text-align: center; margin: 20px"></p>
                         <h3>Podsumowanie Twojej darowizny</h3>
 
                         <div class="summary">
@@ -179,15 +153,15 @@
                                 <ul>
                                     <li>
                                         <span class="icon icon-bag"></span>
-                                        <span class="summary--text"
-                                        >4 worki ubrań w dobrym stanie dla dzieci</span
+                                        <span class="bags-items-summary summary--text"
+                                        ></span
                                         >
                                     </li>
 
                                     <li>
                                         <span class="icon icon-hand"></span>
-                                        <span class="summary--text"
-                                        >Dla fundacji "Mam marzenie" w Warszawie</span
+                                        <span class="institution-summary summary--text"
+                                        ></span
                                         >
                                     </li>
                                 </ul>
@@ -197,19 +171,19 @@
                                 <div class="form-section--column">
                                     <h4>Adres odbioru:</h4>
                                     <ul>
-                                        <li>Prosta 51</li>
-                                        <li>Warszawa</li>
-                                        <li>99-098</li>
-                                        <li>123 456 789</li>
+                                        <li class="address-summary"></li>
+                                        <li class="city-summary"></li>
+                                        <li class="postcode-summary"></li>
+                                        <li class="phone-summary"></li>
                                     </ul>
                                 </div>
 
                                 <div class="form-section--column">
                                     <h4>Termin odbioru:</h4>
                                     <ul>
-                                        <li>13/12/2018</li>
-                                        <li>15:40</li>
-                                        <li>Brak uwag</li>
+                                        <li class="data-summary"></li>
+                                        <li class="time-summary"></li>
+                                        <li class="more_info-summary">Brak uwag</li>
                                     </ul>
                                 </div>
                             </div>
@@ -217,7 +191,7 @@
 
                         <div class="form-group form-group--buttons">
                             <button type="button" class="btn prev-step">Wstecz</button>
-                            <button type="submit" class="btn">Potwierdzam</button>
+                            <button onclick="onSubmit()" type="button" class="btn submit">Potwierdzam</button>
                         </div>
                     </div>
                 </form>
@@ -225,4 +199,148 @@
 
         {% endif %}
     </section>
+{% endblock %}
+
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+            integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script>
+        const endFormData = {
+            bagsNumber: 0,
+            pickedCategories: [],
+            pickedInstitution: {},
+            address: {},
+            pc: []
+        }
+
+        const fillAddressHtml = (namesArr) => namesArr.forEach(i => {
+            [...document.getElementsByName(i)].forEach(e => {
+                endFormData.address[i] = e.value
+                const summaryName = `${e.name}-summary`
+                document.querySelector(`.${summaryName}`).textContent = e.value
+            })
+        })
+
+        const firstStepBtn = document.querySelector('.first')
+        const secondStepBtn = document.querySelector('.second')
+        const thirdStepBtn = document.querySelector('.third')
+        const fourthStepBtn = document.querySelector('.fourth')
+        const categoryInputs = document.querySelectorAll('.category_input')
+        const selectInstitution = document.querySelector('.select')
+        const step3 = document.querySelector('.step3')
+        let allInstitutions = []
+        const createStep2Select = ({name, description, pk}) => {
+            const div = document.createElement('div')
+            div.classList.add('form-group')
+            div.classList.add('form-group--checkbox')
+            div.classList.add('form-group-third')
+            div.innerHTML = `<label>
+            <input class="select" type="radio" name="organization" value=${pk}>
+            <span class="checkbox radio"></span>
+            <span class="description">
+            <div class="title">${name}</div>
+            <div class="subtitle">${description}</div>
+            </span>
+            </label>`
+            return div
+
+
+        }
+
+        const removeInstLabels = () => {
+            step3.firstChild.remove()
+        }
+
+        const createInstitutions = (institutions) => {
+            const h3 = document.createElement('h3')
+            h3.classList.add('h3-third')
+            h3.innerText = 'Wybierz organizacje, której chcesz pomóc:'
+            institutions.forEach(({pk, fields}) => {
+                const div = createStep2Select({name: fields.name, description: fields.description, pk})
+                step3.prepend(div)
+            })
+            step3.prepend(h3)
+        }
+
+        firstStepBtn.addEventListener('click', () => {
+            const ids = [...categoryInputs].filter(i => i.checked).map(i => i.value)
+            endFormData.pc = ids
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/categories/',
+                data: {
+                    'ids': JSON.stringify(ids)
+                },
+                dataType: 'json'
+            }).done((res) => {
+                $('.form-group-third').remove()
+                $('.h3-third').remove()
+                const institutions = JSON.parse(res.institutions)
+                createInstitutions(institutions)
+                allInstitutions = institutions
+                const categoryNames = [...document.querySelectorAll('.category-name')]
+                endFormData.pickedCategories = categoryNames.map(i => i.textContent)
+            }).fail((err) => {
+                console.log(err)
+            })
+        })
+        secondStepBtn.addEventListener('click', () => {
+            endFormData.bagsNumber = document.querySelector('.bags').value
+        })
+        thirdStepBtn.addEventListener('click', () => {
+            const selects = document.querySelectorAll('.select')
+            const selectedValue = [...selects].find(s => s.checked).value
+            endFormData.pickedInstitution = allInstitutions.find(i => i.pk === +selectedValue)
+        })
+        fourthStepBtn.addEventListener('click', () => {
+            const names = ['address', 'city', 'postcode', 'phone', 'data', 'time', 'more_info']
+            fillAddressHtml(names)
+            const bagsItems = document.querySelector('.bags-items-summary')
+            const institutionSummary = document.querySelector('.institution-summary')
+            bagsItems.textContent = `${endFormData.bagsNumber} worki kategorii: ${[...endFormData.pickedCategories]}`
+            console.log(endFormData.pickedInstitution)
+            institutionSummary.textContent = `Dla fundacji : ${endFormData.pickedInstitution.fields.name}`
+        })
+
+
+        const changeValidationMsg = (msg) => {
+            const pMsg = document.getElementById('msg')
+            pMsg.textContent = msg
+        }
+
+        const validateAddressObj = (msg) => {
+            Object.values(endFormData.address).forEach(v => {
+                if (!v) {
+                    return changeValidationMsg(msg)
+                }
+            })
+        }
+
+        const onSubmit = () => {
+            const {bagsNumber, pickedInstitution, pickedCategories} = endFormData
+            if (!bagsNumber) {
+                changeValidationMsg('Wpisz liczbę worków!')
+            } else if (pickedCategories.length === 0) {
+                changeValidationMsg('Wybierz przynajmniej jedną kategorię')
+            } else if (!Object.keys(pickedInstitution).length) {
+                changeValidationMsg('Wybierz fundację')
+            }
+            validateAddressObj('Upewnij się, że wpisano poprawny adres.')
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/donation/',
+                data: {
+                    'data': JSON.stringify(endFormData),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                method: 'post'
+            }).done((res) => {
+                console.log(res)
+                window.location.replace('http://127.0.0.1:8000/confirm')
+            }).fail((err) => {
+                console.log(err)
+            })
+
+        }
+
+    </script>
 {% endblock %}
